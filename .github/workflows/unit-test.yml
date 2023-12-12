@@ -1,0 +1,62 @@
+name: Unit Test
+on:
+  workflow_call:
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    env:
+      REPO_HOST: ${{ secrets.REPO_HOST }}
+      REPO_USER: ${{ secrets.REPO_USER }}
+      REPO_PASS: ${{ secrets.REPO_PASS }}
+    strategy:
+      matrix:
+        php-version:
+          - "8.1"
+          - "8.2"
+        dependency-versions:
+          - "highest"
+          - "lowest"
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    name: PHP ${{ matrix.php-version }} (${{ matrix.dependency-versions }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Tools Cache
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-tools
+        with:
+          path: ${{ github.workspace }}/tools
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Authenticate Private Packages
+        run: composer config --global $REPO_HOST $REPO_USER $REPO_PASS
+
+      - name: Install Dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: ${{ matrix.dependency-versions }}
+
+      - name: Install Tools
+        run: composer run-script install-tools
+
+      - name: Run PHPUnit Tests
+        run: composer run-script test
