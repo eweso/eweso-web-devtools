@@ -1,10 +1,10 @@
 {
   "name": "eweso/eweso-web-devtools",
   "extra": {
-    "branch-version": "23.1212.1"
+    "branch-version": "24.0303.1"
   },
   "require": {
-    "php": "~8.1|~8.2",
+    "php": "~8.2|~8.3",
     "brianium/paratest": "7.*",
     "friendsofphp/php-cs-fixer": "3.*"
   }
