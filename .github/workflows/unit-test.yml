@@ -20,7 +20,6 @@ jobs:
       REPO_HOST: ${{ secrets.REPO_HOST }}
       REPO_USER: ${{ secrets.REPO_USER }}
       REPO_PASS: ${{ secrets.REPO_PASS }}
-      REPO_CACHE_PREFIX: "${{ runner.os }}-cache-${{ github.repository_id }}"
     strategy:
       matrix:
         php-version:
@@ -51,15 +50,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "${{ github.workspace }}/tests/cache"
-          key: "$REPO_CACHE_PREFIX-tz-boundary"
-          restore-keys: "$REPO_CACHE_PREFIX-tz-boundary"
+          key: "${{ runner.os }}-cache-${{ github.repository_id }}-tz-boundary"
+          restore-keys: "${{ runner.os }}-cache-${{ github.repository_id }}-tz-boundary"
 
       - name: Cache DEV Tools
         uses: actions/cache@v4
         with:
           path: "${{ github.workspace }}/tools"
-          key: "$REPO_CACHE_PREFIX-dev-tools"
-          restore-keys: "$REPO_CACHE_PREFIX-dev-tools"
+          key: "${{ runner.os }}-cache-${{ github.repository_id }}-dev-tools"
+          restore-keys: "${{ runner.os }}-cache-${{ github.repository_id }}-dev-tools"
 
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
