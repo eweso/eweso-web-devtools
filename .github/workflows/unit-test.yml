@@ -46,14 +46,11 @@ jobs:
         run: sudo apt install sqlite3 libsqlite3-mod-spatialite
 
       - name: Setup Tools Cache
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-tools
+        uses: actions/cache@v4
         with:
           path: "${{ github.workspace }}/tools"
-          key: "${{ runner.os }}-build-${{ env.cache-name }}"
-          restore-keys: |
-            "${{ runner.os }}-build-${{ env.cache-name }}"
+          key: "${{ runner.os }}-build-cache-tools"
+          restore-keys: "${{ runner.os }}-build-cache-tools"
 
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
