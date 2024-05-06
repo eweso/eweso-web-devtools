@@ -1,6 +1,15 @@
 name: Unit Test
 on:
   workflow_call:
+    inputs:
+      redis:
+        default: false
+        required: false
+        type: boolean
+      spatialte:
+        default: false
+        required: false
+        type: boolean
 
 jobs:
   unit-test:
@@ -19,6 +28,8 @@ jobs:
         dependency-versions:
           - "highest"
           - "lowest"
+
+    if: ${{ inputs.redis == 'true' }}
     services:
       redis:
         image: redis
@@ -31,7 +42,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Spatialite
+      - if: ${{ inputs.spatialte == 'true' }}
+        name: Install Spatialite
         run: sudo apt install sqlite3 libsqlite3-mod-spatialite
 
       - name: Setup Tools Cache
