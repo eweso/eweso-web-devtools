@@ -29,10 +29,9 @@ jobs:
           - "highest"
           - "lowest"
 
-    if: ${{ inputs.redis == 'true' }}
     services:
       redis:
-        image: redis
+        image: ${{ (inputs.redis == 'true') && 'redis' || '' }}
         ports:
           - 6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
