@@ -45,7 +45,17 @@ jobs:
         if: ${{ inputs.spatialite == 'yes' }}
         run: sudo apt install sqlite3 libsqlite3-mod-spatialite
 
-      - name: Setup Tools Cache
+      - name: ${{ (inputs.spatialite == 'yes') && 'Cache TZ Boundary' || 'Skip TZ Boundary Cache' }}
+        if: ${{ inputs.spatialite == 'yes' }}
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-tz-boundary
+        with:
+          path: "${{ github.workspace }}/tests/cache"
+          key: "${{ runner.os }}-build-cache-tz-boundary"
+          restore-keys: "${{ runner.os }}-build-cache-tz-boundary"
+
+      - name: Cache DEV Tools
         uses: actions/cache@v4
         with:
           path: "${{ github.workspace }}/tools"
