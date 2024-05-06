@@ -31,7 +31,7 @@ jobs:
 
     services:
       redis:
-        image: ${{ (inputs.redis == 'true') && 'redis' || '' }}
+        image: ${{ (inputs.redis == true) && 'redis' || '' }}
         ports:
           - 6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -41,8 +41,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: ${{ (inputs.spatialite == 'true') && 'Install Spatialite' || 'Skip Spatialite' }}
-        if: ${{ inputs.spatialite == 'true' }}
+      - name: ${{ (inputs.spatialite == true) && 'Install Spatialite' || 'Skip Spatialite' }}
+        if: ${{ inputs.spatialite == true }}
         run: sudo apt install sqlite3 libsqlite3-mod-spatialite
 
       - name: Setup Tools Cache
