@@ -3,11 +3,11 @@ on:
   workflow_call:
     inputs:
       redis:
-        default: false
+        default: true
         required: false
         type: boolean
       spatialite:
-        default: false
+        default: true
         required: false
         type: boolean
 
