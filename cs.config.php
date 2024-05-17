@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
 # Config Reference: https://mlocati.github.io/php-cs-fixer-configurator/#version:3.13
 return function (iterable $finder): PhpCsFixer\Config {
     $config = new PhpCsFixer\Config();
+    $config->setParallelConfig(ParallelConfigFactory::detect());
     $config->setFinder($finder);
     $config->setRiskyAllowed(true);
     $config->setRules(
