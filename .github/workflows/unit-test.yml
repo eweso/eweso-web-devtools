@@ -70,7 +70,7 @@ jobs:
         run: composer config --global $REPO_HOST $REPO_USER $REPO_PASS
 
       - name: Install Dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependency-versions }}
 
