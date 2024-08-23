@@ -1,7 +1,7 @@
 {
   "name": "eweso/eweso-web-devtools",
   "extra": {
-    "branch-version": "24.0807.1"
+    "branch-version": "24.0823.1"
   },
   "require": {
     "php": "~8.2|~8.3",

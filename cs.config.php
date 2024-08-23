@@ -143,6 +143,7 @@ return function (iterable $finder): PhpCsFixer\Config {
         'no_singleline_whitespace_before_semicolons' => true,
         'no_trailing_whitespace' => true,
         'no_trailing_whitespace_in_comment' => true,
+        'single_line_empty_body' => true,
     ]);
 
     return $config;
