@@ -1,7 +1,10 @@
 {
   "name": "eweso/eweso-web-devtools",
-  "extra": {
-    "branch-version": "24.0823.1"
+  "version": "24.0927.1",
+  "scripts": {
+    "update-packages": [
+      "composer update --no-scripts --no-plugins --ignore-platform-reqs --ansi"
+    ]
   },
   "require": {
     "php": "~8.2|~8.3",

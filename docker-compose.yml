@@ -1,0 +1,13 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+      secrets:
+        - composer_auth
+    volumes:
+      - .:/opt/project
+
+secrets:
+  composer_auth:
+    file: ~/.composer/auth.json
