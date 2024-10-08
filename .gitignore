@@ -10,3 +10,4 @@
 # Composer
 /vendor
 /composer.lock
+auth.json
