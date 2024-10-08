@@ -35,7 +35,7 @@ jobs:
           coverage: none
 
       - name: Authenticate Private Packages
-        run: composer config --global $REPO_HOST $REPO_USER $REPO_PASS
+        run: composer config --global "http-basic.$REPO_HOST" $REPO_USER $REPO_PASS
 
       - name: Install Tools
         run: composer run-script install-tools
