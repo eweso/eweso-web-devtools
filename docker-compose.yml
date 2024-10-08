@@ -10,4 +10,4 @@ services:
 
 secrets:
   composer_auth:
-    file: ~/.composer/auth.json
+    file: .docker/auth.json
