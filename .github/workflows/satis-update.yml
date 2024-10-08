@@ -1,0 +1,16 @@
+name: CS-Check
+on:
+  workflow_call:
+
+jobs:
+  satis-update:
+    runs-on: ubuntu-22.04
+    name: Satis Update
+    permissions:
+      contents: read
+    env:
+      REPO_URL: "https://${{ secrets.REPO_HOST }}/update?repo=${{ github.repository }}"
+      REPO_USER: "${{ secrets.REPO_USER }}:${{ secrets.REPO_PASS }}"
+    steps:
+      - name: Satis Update Request
+        run: curl -m 60 -u "$REPO_USER" "$REPO_URL"
