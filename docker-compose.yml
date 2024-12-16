@@ -6,5 +6,5 @@ services:
       dockerfile: .docker/Dockerfile
     volumes:
       - .:/opt/project
-      - .docker/auth.json:/root/.composer/auth.json
+      - .docker/auth.json:/root/.config/composer/auth.json
     command: tail -f /dev/null
