@@ -23,8 +23,8 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.2"
           - "8.3"
+          - "8.4"
         dependency-versions:
           - "highest"
           - "lowest"

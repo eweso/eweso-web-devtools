@@ -1,13 +1,10 @@
+name: eweso-web-devtools
 services:
   php:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-      secrets:
-        - composer_auth
     volumes:
       - .:/opt/project
-
-secrets:
-  composer_auth:
-    file: .docker/auth.json
+      - .docker/auth.json:/root/.composer/auth.json
+    command: tail -f /dev/null

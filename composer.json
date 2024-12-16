@@ -1,13 +1,13 @@
 {
   "name": "eweso/eweso-web-devtools",
-  "version": "24.0927.1",
+  "version": "24.1216.1",
   "scripts": {
     "update-packages": [
       "composer update --no-scripts --no-plugins --ignore-platform-reqs --ansi"
     ]
   },
   "require": {
-    "php": "~8.2|~8.3",
+    "php": "~8.3|~8.4",
     "brianium/paratest": "7.*",
     "friendsofphp/php-cs-fixer": "3.*"
   }
