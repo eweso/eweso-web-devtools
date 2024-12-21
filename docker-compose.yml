@@ -1,10 +1,10 @@
 name: eweso-web-devtools
 services:
   php:
-    build:
-      context: .
-      dockerfile: .docker/Dockerfile
+    image: "eweso/devcontainer:latest"
+    stop_grace_period: 0s
     volumes:
       - .:/opt/project
-      - .docker/auth.json:/root/.config/composer/auth.json
+      - .docker/auth.json:/root/.composer/auth.json:ro
+      - .docker/auth.json:/root/.config/composer/auth.json:ro
     command: tail -f /dev/null
