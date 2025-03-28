@@ -144,6 +144,11 @@ return function (iterable $finder): PhpCsFixer\Config {
         'no_trailing_whitespace' => true,
         'no_trailing_whitespace_in_comment' => true,
         'single_line_empty_body' => true,
+
+        // Unit Tests
+        'php_unit_method_casing' => [
+            'case' => 'snake_case'
+        ],
     ]);
 
     return $config;
