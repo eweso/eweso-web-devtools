@@ -1,6 +1,6 @@
 {
   "name": "eweso/eweso-web-devtools",
-  "version": "25.0328.1",
+  "version": "25.0915.1",
   "scripts": {
     "update-packages": [
       "composer update --no-scripts --no-plugins --ignore-platform-reqs --ansi"

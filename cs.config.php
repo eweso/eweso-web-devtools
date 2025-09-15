@@ -8,6 +8,7 @@ use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 return function (iterable $finder): PhpCsFixer\Config {
     $config = new PhpCsFixer\Config();
     $config->setParallelConfig(ParallelConfigFactory::detect());
+    $config->setUnsupportedPhpVersionAllowed(true);
     $config->setFinder($finder);
     $config->setRiskyAllowed(true);
     $config->setRules([
