@@ -22,6 +22,7 @@ return function (iterable $finder): PhpCsFixer\Config {
         'modernize_types_casting' => true,
         'void_return' => true,
         'no_short_bool_cast' => true,
+        'static_lambda' => true,
 
         // Syntax Rules
         'array_syntax' => [
