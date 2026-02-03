@@ -1,0 +1,80 @@
+name: Unit Test
+on:
+  workflow_call:
+    inputs:
+      redis:
+        default: no
+        required: false
+        type: string
+      spatialite:
+        default: no
+        required: false
+        type: string
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    env:
+      REPO_HOST: ${{ secrets.REPO_HOST }}
+      REPO_USER: ${{ secrets.REPO_USER }}
+      REPO_PASS: ${{ secrets.REPO_PASS }}
+    strategy:
+      matrix:
+        php-version:
+          - "8.4"
+        dependency-versions:
+          - "highest"
+          - "lowest"
+
+    services:
+      redis:
+        image: ${{ (inputs.redis == 'yes') && 'redis' || '' }}
+        ports:
+          - 6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    name: PHP ${{ matrix.php-version }} (${{ matrix.dependency-versions }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: ${{ (inputs.spatialite == 'yes') && 'Install Spatialite' || 'Skip Spatialite' }}
+        if: ${{ inputs.spatialite == 'yes' }}
+        run: sudo apt install sqlite3 libsqlite3-mod-spatialite
+
+      - name: ${{ (inputs.spatialite == 'yes') && 'Cache TZ Boundary' || 'Skip TZ Boundary Cache' }}
+        if: ${{ inputs.spatialite == 'yes' }}
+        uses: actions/cache@v4
+        with:
+          path: "${{ github.workspace }}/tests/cache"
+          key: "${{ runner.os }}-cache-${{ github.repository_id }}-tz-boundary"
+          restore-keys: "${{ runner.os }}-cache-${{ github.repository_id }}-tz-boundary"
+
+      - name: Cache DEV Tools
+        uses: actions/cache@v4
+        with:
+          path: "${{ github.workspace }}/tools"
+          key: "${{ runner.os }}-cache-${{ github.repository_id }}-dev-tools"
+          restore-keys: "${{ runner.os }}-cache-${{ github.repository_id }}-dev-tools"
+
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Authenticate Private Packages
+        run: composer config --global "http-basic.$REPO_HOST" $REPO_USER $REPO_PASS
+
+      - name: Install Dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.dependency-versions }}
+
+      - name: Install Tools
+        run: composer run-script install-tools
+
+      - name: Run PHPUnit Tests
+        run: composer run-script test

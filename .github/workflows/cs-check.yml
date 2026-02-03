@@ -1,0 +1,44 @@
+name: CS-Check
+on:
+  workflow_call:
+
+jobs:
+  cs-check:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    env:
+      REPO_HOST: ${{ secrets.REPO_HOST }}
+      REPO_USER: ${{ secrets.REPO_USER }}
+      REPO_PASS: ${{ secrets.REPO_PASS }}
+    strategy:
+      matrix:
+        php-version:
+          - "8.4"
+
+    name: CS Check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache DEV Tools
+        uses: actions/cache@v4
+        with:
+          path: "${{ github.workspace }}/tools"
+          key: "${{ runner.os }}-cache-${{ github.repository_id }}-dev-tools"
+          restore-keys: "${{ runner.os }}-cache-${{ github.repository_id }}-dev-tools"
+
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Authenticate Private Packages
+        run: composer config --global "http-basic.$REPO_HOST" $REPO_USER $REPO_PASS
+
+      - name: Install Tools
+        run: composer run-script install-tools
+
+      - name: Run CS Check
+        run: composer run-script cs-check

@@ -1,0 +1,8 @@
+name: eweso-web-devtools
+services:
+  php:
+    hostname: "devcontainer"
+    image: "eweso/devcontainer:latest"
+    volumes:
+      - .:/opt/project
+      - ${HOME}/Secrets/auth.json:/home/${USER}/.config/composer/auth.json:ro
